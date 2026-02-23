@@ -26,8 +26,7 @@ export function LoginForm() {
       if (error) throw error;
   
       if (data?.user) {
-        router.push("/dashboard");
-        router.refresh();
+        window.location.href = "/dashboard";
       }
   
     } catch (error: any) {

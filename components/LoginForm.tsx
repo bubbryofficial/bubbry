@@ -18,19 +18,24 @@ export function LoginForm() {
     setLoading(true);
   
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
       });
   
-      if (error) throw error;
+      const result = await res.json();
   
-      if (data?.user) {
-        window.location.href = "/dashboard";
+      if (!res.ok) {
+        throw new Error(result.error || "Login failed");
       }
   
+      window.location.href = "/dashboard";
+  
     } catch (error: any) {
-      setError(error.message || "An error occurred");
+      setError(error.message);
     } finally {
       setLoading(false);
     }

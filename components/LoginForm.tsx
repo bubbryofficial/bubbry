@@ -23,6 +23,10 @@ export function LoginForm() {
         password,
       });
 
+      if (data?.user) {
+        window.location.href = "/dashboard";
+      }
+      
       if (error) throw error;
 
       router.push("/");

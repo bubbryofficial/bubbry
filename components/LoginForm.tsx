@@ -16,21 +16,20 @@ export function LoginForm() {
     e.preventDefault();
     setError("");
     setLoading(true);
-
+  
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-
-      if (data?.user) {
-        window.location.href = "/dashboard";
-      }
-      
+  
       if (error) throw error;
-
-      router.push("/");
-      router.refresh();
+  
+      if (data?.user) {
+        router.push("/dashboard");
+        router.refresh();
+      }
+  
     } catch (error: any) {
       setError(error.message || "An error occurred");
     } finally {

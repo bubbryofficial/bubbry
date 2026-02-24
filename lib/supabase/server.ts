@@ -1,10 +1,8 @@
-// lib/supabase/server.ts
-
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 export async function createClient() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -15,19 +13,14 @@ export async function createClient() {
           return cookieStore.getAll();
         },
 
-        setAll(cookiesToSet: {
-          name: string;
-          value: string;
-          options: CookieOptions;
-        }[]) {
+        setAll(
+          cookiesToSet: { name: string; value: string; options: CookieOptions }[]
+        ) {
           try {
-            cookiesToSet.forEach(({ name, value, options }) => {
-              cookieStore.set(name, value, options);
-            });
-          } catch (error) {
-            // This can happen in Server Components.
-            // It's safe to ignore.
-          }
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options)
+            );
+          } catch {}
         },
       },
     }

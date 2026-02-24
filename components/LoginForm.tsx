@@ -20,18 +20,22 @@ export function LoginForm() {
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ email, password }),
       });
-      
-      if (res.ok) {
-        window.location.href = "/dashboard";
+  
+      const result = await res.json();
+  
+      if (!res.ok) {
+        throw new Error(result.error);
       }
   
       window.location.href = "/dashboard";
   
-    } catch (error: any) {
-      setError(error.message);
+    } catch (err: any) {
+      setError(err.message);
     } finally {
       setLoading(false);
     }

@@ -2,8 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
-
-  const supabase = await createClient();
+  const supabase = createClient();
 
   const {
     data: { user },
@@ -14,15 +13,9 @@ export default async function Dashboard() {
   }
 
   return (
-
     <div>
-
       <h1>Dashboard</h1>
-
       <p>Welcome {user.email}</p>
-
     </div>
-
   );
-
 }
